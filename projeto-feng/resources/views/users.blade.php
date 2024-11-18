@@ -46,7 +46,7 @@
                             <td class="px-6 py-4">{{ $users->acertos }}</td>
                             <td class="px-6 py-4">{{ $users->erros }}</td>
                             <td class="px-6 py-4 text-center">
-                                <button class="text-blue-600 hover:text-blue-800"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <a href="{{route('users.edit', $users->id)}}" class="text-blue-600 hover:text-blue-800"><i class="fa-solid fa-pen-to-square"></i></a>
                             </td>
 
                             <td class="px-6 py-4 text-center">

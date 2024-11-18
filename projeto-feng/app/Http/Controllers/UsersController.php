@@ -49,27 +49,29 @@ class UsersController extends Controller
 
     public function edit($id)
     {
-        // Mostrar o formulário de edição do usuário
-        $users = User::findOrFail($id);
-        return view('users', ['usersreturn' => $users]);
+        $user = User::findOrFail($id); // Obtém um único usuário
+    
+        return view('useredit', ['user' => $user]); // Nome da variável 'user' ao invés de 'usersreturn'
     }
-
+    
     public function update(Request $request, $id)
     {
-        // Validação do campo 'name' (único para esse usuário)
         $request->validate([
-            'name' => 'required|string|max:255|unique:users,name,' . $id,
+            'useredit' => 'required|string|max:255',
         ]);
-
-        // Atualizar o usuário
-        $user = User::findOrFail($id);
-        $user->update([
-            'name' => $request->name,
-        ]);
-
-        return redirect()->route('users')->with('success', 'Usuário atualizado com sucesso!');
+    
+        $user = User::findOrFail($id); // Obtém o usuário a ser editado
+    
+        if ($user) {
+            $user->name = $request->useredit; // Atualiza o nome
+            $user->save();
+    
+            return redirect()->route('users.index')->with('success', 'Usuário atualizado com sucesso!'); // Alerta de sucesso
+        } else {
+            return redirect()->route('users.index')->with('error', 'Usuário não encontrado!'); // Alerta de erro
+        }
     }
-
+    
     public function destroy($id)
     {
         // Excluir o usuário
