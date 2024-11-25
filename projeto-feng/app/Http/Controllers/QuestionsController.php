@@ -3,16 +3,43 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
+
+use App\Models\User;
+
+use App\Models\QuestionResponse;
+
 use Illuminate\Http\Request;
 
 class QuestionsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $questions = Question::all();
-
-        return view('questions', ['questionreturn' => $questions]);
+        $search = $request->input('search'); // Captura o termo de busca
+    
+        // Caso tenha uma busca, filtra as perguntas
+        if ($search) {
+            $questions = Question::where('question', 'LIKE', "%{$search}%")->paginate(2);
+        } else {
+            $questions = Question::paginate(2); // Caso contrário, exibe todas as perguntas
+        }
+    
+        $alluser = User::all();
+    
+        $responses = QuestionResponse::with('user') 
+            ->orderBy('answered_at', 'desc') 
+            ->get()
+            ->groupBy('question_id'); 
+    
+        return view('questions', [
+            'questionreturn' => $questions,
+            'lastresponse' => $responses,
+            'username' => $alluser,
+        ]);
     }
+    
+    
+    
+
 
     public function create()
     {
@@ -57,19 +84,19 @@ class QuestionsController extends Controller
         $request->validate([
             'editquestion' => 'required|string|max:255',
         ]);
-    
-        $perguntaedit = Question::find($id); 
-    
+
+        $perguntaedit = Question::find($id);
+
         if ($perguntaedit) {
             $perguntaedit->question = $request->editquestion;
             $perguntaedit->save();
-    
+
             return redirect()->route('questions.index')->with('success', 'Pergunta atualizada com sucesso!');
         } else {
             return redirect()->route('questions.index')->with('error', 'Pergunta não encontrada!');
         }
     }
-    
+
 
     public function destroy($id)
     {

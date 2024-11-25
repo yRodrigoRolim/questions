@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\QuestionsController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\GameController;
+
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,7 +23,6 @@ Route::resource('questions', QuestionsController::class);
 //Route::put('products/{product}', [ProductController::class, 'update'])->name('products.update');  // Atualizar um produto específico
 //Route::delete('products/{product}', [ProductController::class, 'destroy'])->name('products.destroy'); // Excluir um produto específico
 
-Route::get('/game', function () {
-    return view('game');
-})->name('game');
 
+Route::get('/game', [GameController::class, 'play'])->name('game');
+Route::post('/game/result', [GameController::class, 'processResult'])->name('game.result');
