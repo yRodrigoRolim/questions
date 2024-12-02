@@ -14,6 +14,7 @@
 
 
             <div class="relative overflow-x-auto max-h-90 overflow-y-auto mt-2">
+
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 relative mt-2">
                     <thead
                         class="w-full text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-extrelightpurple">
@@ -36,10 +37,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
+
                         @if ($usersreturn)
-                        
-                         {{ $usersreturn->links() }}
+                        {{$usersreturn->links()}}
+
 
                         @foreach ($usersreturn as $users)
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -57,14 +58,14 @@
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="text-red-600 hover:text-red-800"><i class="fa-solid fa-trash"></i></button>
-                                    
+
                                 </form>
                             </td>
 
                         </tr>
                         @endforeach
                     @endif
-                    
+
 
                         <!-- Mais linhas, conforme necessário -->
                     </tbody>

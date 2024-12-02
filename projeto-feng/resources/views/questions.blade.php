@@ -12,9 +12,9 @@
                 <button type="submit"
                     class="ml-2 text-purple bg-white px-2 py-1 border-white border-solid border-2 rounded">Cadastrar</button>
             </form>
-            
-            
-            
+
+
+
 
             <div class="relative overflow-x-auto max-h-90 overflow-y-auto mt-2">
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mt-2">
@@ -42,6 +42,8 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {{$questionreturn->links()}}
+
                         @if ($questionreturn->isNotEmpty())
                             @foreach ($questionreturn as $question)
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -61,7 +63,7 @@
                                             ---
                                         @endif
                                     </td>
-                    
+
                                     <td class="px-6 py-4 text-center">
                                         <a href="{{ route('questions.edit', $question->id) }}"
                                             class="text-blue-600 hover:text-blue-800"><i
@@ -84,8 +86,8 @@
                             </tr>
                         @endif
                     </tbody>
-                    
-                    
+
+
                 </table>
                 <form method="GET" action="{{ route('questions.index') }}" class="w-full flex justify-between">
                     <input type="text" name="search" placeholder="Buscar perguntas..." value="{{ request('search') }}" class="border-purple p-2 border-solid bg-gray-800 w-10/12 outline-none text-white ">

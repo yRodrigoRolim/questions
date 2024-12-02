@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\QuestionsController;
 use App\Http\Controllers\UsersController;
-use App\Http\Controllers\GameController;
+use App\Http\Controllers\GameController;    
 
 use Illuminate\Support\Facades\Route;
 

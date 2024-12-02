@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
-
 use App\Models\User;
-
 use App\Models\QuestionResponse;
 
 use Illuminate\Http\Request;
@@ -14,31 +12,30 @@ class QuestionsController extends Controller
 {
     public function index(Request $request)
     {
-        $search = $request->input('search'); // Captura o termo de busca
-    
-        // Caso tenha uma busca, filtra as perguntas
+        $search = $request->input('search');
+
         if ($search) {
             $questions = Question::where('question', 'LIKE', "%{$search}%")->paginate(2);
         } else {
-            $questions = Question::paginate(2); // Caso contrário, exibe todas as perguntas
+            $questions = Question::paginate(2);
         }
-    
+
         $alluser = User::all();
-    
-        $responses = QuestionResponse::with('user') 
-            ->orderBy('answered_at', 'desc') 
+
+        $responses = QuestionResponse::with('user')
+            ->orderBy('answered_at', 'desc')
             ->get()
-            ->groupBy('question_id'); 
-    
+            ->groupBy('question_id');
+
         return view('questions', [
             'questionreturn' => $questions,
             'lastresponse' => $responses,
             'username' => $alluser,
         ]);
     }
-    
-    
-    
+
+
+
 
 
     public function create()

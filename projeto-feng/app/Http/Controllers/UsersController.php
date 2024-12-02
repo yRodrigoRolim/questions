@@ -32,12 +32,12 @@ class UsersController extends Controller
         // Criação do novo usuário
         User::create([
             'name' => $userName,
-            'acertos' => 0,  
-            'erros' => 0,  
+            'acertos' => 0,
+            'erros' => 0,
         ]);
 
         return redirect()->route('users.index')->with('success', 'Usuário cadastrado com sucesso!');
-        
+
     }
 
     public function show($id)
@@ -50,28 +50,28 @@ class UsersController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id); // Obtém um único usuário
-    
+
         return view('useredit', ['user' => $user]); // Nome da variável 'user' ao invés de 'usersreturn'
     }
-    
+
     public function update(Request $request, $id)
     {
         $request->validate([
             'useredit' => 'required|string|max:255',
         ]);
-    
+
         $user = User::findOrFail($id); // Obtém o usuário a ser editado
-    
+
         if ($user) {
             $user->name = $request->useredit; // Atualiza o nome
             $user->save();
-    
+
             return redirect()->route('users.index')->with('success', 'Usuário atualizado com sucesso!'); // Alerta de sucesso
         } else {
             return redirect()->route('users.index')->with('error', 'Usuário não encontrado!'); // Alerta de erro
         }
     }
-    
+
     public function destroy($id)
     {
         // Excluir o usuário
